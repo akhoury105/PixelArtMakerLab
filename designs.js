@@ -1,46 +1,47 @@
-let form = document.getElementById("sizePicker");
-let canvas = document.getElementById('pixelCanvas');
-let color = document.getElementById('colorPicker');
+// Revised the code to include comments.
+// Also tweaked some things based on suggestions from the original review.
+// Changed my variables from let to const because I'm not changing the values.
 
+const form = document.getElementById("sizePicker");
+const canvas = document.getElementById('pixelCanvas');
+const color = document.getElementById('colorPicker');
+
+/*
+
+This function generates the grid based on the users input.
+It is called when the submit button is clicked.
+
+*/
 function makeGrid(event) {
 
     clearGrid();
 
-    let height = document.getElementById('inputHeight');
-    let width = document.getElementById('inputWidth');
+    const height = document.getElementById('inputHeight');
+    const width = document.getElementById('inputWidth');
 
     for (i = 1; i <= height.value; i++){
 
-        let tr = document.createElement('tr');
-        canvas.appendChild(tr);
+        const row = canvas.insertRow();
 
         for (j = 1; j<= width.value; j++){
 
-            let td = document.createElement('td')
-            td.addEventListener('click', function paint(){
-                td.bgColor = color.value;
+            const cell = row.insertCell();
+            cell.addEventListener('click', function paint(){
+                cell.bgColor = color.value;
             });
-            canvas.lastChild.appendChild(td);
         }
     }
 
     event.preventDefault();
 }
 
-
+/*
+    Changed how the grid resets.
+    Not sure if this way is PC but it's the only way I could figure out how
+    using the innerHTML.
+*/
 function clearGrid() {
-
-    while (canvas.firstChild){
-        canvas.removeChild(canvas.firstChild);
-    }
+    canvas.innerHTML = null;
 }
 
 form.addEventListener('submit', makeGrid);
-
-/*
-function paint(event) {
-        event.target.bgColor = color.value;
-}
-
-canvas.addEventListener('click', paint);
-*/
